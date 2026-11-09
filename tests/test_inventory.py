@@ -25,16 +25,16 @@ def by_container(inventory):
 
 
 @pytest.mark.parametrize("ref, expected", [
-    (f"{HOST}/demo:v1", (HOST, "demo", "v1", None)),
-    (f"{HOST}/team/demo:v1", (HOST, "team/demo", "v1", None)),
-    (f"{HOST}/demo", (HOST, "demo", "latest", None)),
-    (f"{HOST}/demo@{DIGEST}", (HOST, "demo", "", DIGEST)),
-    (f"{HOST}/demo:v1@{DIGEST}", (HOST, "demo", "v1", DIGEST)),
-    ("340754910639.dkr.ecr-fips.us-gov-west-1.amazonaws.com/demo:v1",
-     ("340754910639.dkr.ecr-fips.us-gov-west-1.amazonaws.com", "demo", "v1", None)),
+    (f"{HOST}/imgexpiry-demo:v1", (HOST, "imgexpiry-demo", "v1", None)),
+    (f"{HOST}/team/imgexpiry-demo:v1", (HOST, "team/imgexpiry-demo", "v1", None)),
+    (f"{HOST}/imgexpiry-demo", (HOST, "imgexpiry-demo", "latest", None)),
+    (f"{HOST}/imgexpiry-demo@{DIGEST}", (HOST, "imgexpiry-demo", "", DIGEST)),
+    (f"{HOST}/imgexpiry-demo:v1@{DIGEST}", (HOST, "imgexpiry-demo", "v1", DIGEST)),
+    ("340754910639.dkr.ecr-fips.us-gov-west-1.amazonaws.com/imgexpiry-demo:v1",
+     ("340754910639.dkr.ecr-fips.us-gov-west-1.amazonaws.com", "imgexpiry-demo", "v1", None)),
     ("nginx:1.27", None),
     ("ghcr.io/org/app:1", None),
-    ("123.dkr.ecr.us-west-2.amazonaws.com/demo:v1", None),  # account id must be 12 digits
+    ("123.dkr.ecr.us-west-2.amazonaws.com/imgexpiry-demo:v1", None),  # account id must be 12 digits
 ])
 def test_parse_image_ref(ref, expected):
     assert parse_image_ref(ref) == expected
@@ -42,7 +42,7 @@ def test_parse_image_ref(ref, expected):
 
 def test_pod_digest_comes_from_container_status(inventory):
     web = by_container(inventory)[("web", "app")]
-    assert (web.repository, web.tag, web.digest) == ("demo", "v1.3.0", DIGEST)
+    assert (web.repository, web.tag, web.digest) == ("imgexpiry-demo", "v1.3.0", DIGEST)
     assert (web.namespace, web.workload_kind) == ("shop", "Deployment")
 
 
@@ -78,13 +78,13 @@ def test_total_images(inventory):
 
 def test_digest_pinned_spec_is_used_when_status_is_missing():
     pod = {"kind": "Pod", "metadata": {"name": "p", "namespace": "n"},
-           "spec": {"containers": [{"name": "c", "image": f"{HOST}/demo@{DIGEST}"}]}}
+           "spec": {"containers": [{"name": "c", "image": f"{HOST}/imgexpiry-demo@{DIGEST}"}]}}
     assert from_items([pod]).images[0].digest == DIGEST
 
 
 def test_bare_config_digest_image_id_is_not_trusted():
     pod = {"kind": "Pod", "metadata": {"name": "p", "namespace": "n"},
-           "spec": {"containers": [{"name": "c", "image": f"{HOST}/demo:v1"}]},
+           "spec": {"containers": [{"name": "c", "image": f"{HOST}/imgexpiry-demo:v1"}]},
            "status": {"containerStatuses": [{"name": "c", "imageID": DIGEST}]}}
     assert from_items([pod]).images[0].digest is None
 

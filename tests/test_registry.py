@@ -51,20 +51,20 @@ def test_fetch_images_follows_pagination(client):
         return resp
 
     with Stubber(client) as stub:
-        stub.add_response("describe_images", page("sha256:a", "t1"), {"repositoryName": "demo"})
-        stub.add_response("describe_images", page("sha256:b"), {"repositoryName": "demo", "nextToken": "t1"})
-        images = registry.fetch_images(client, "demo")
+        stub.add_response("describe_images", page("sha256:a", "t1"), {"repositoryName": "imgexpiry-demo"})
+        stub.add_response("describe_images", page("sha256:b"), {"repositoryName": "imgexpiry-demo", "nextToken": "t1"})
+        images = registry.fetch_images(client, "imgexpiry-demo")
     assert [i.digest for i in images] == ["sha256:a", "sha256:b"]
 
 
 def test_fetch_policy_returns_text(client):
     text = registry.load_policy_file(FIXTURES / "lifecycle-policy.json")
     with Stubber(client) as stub:
-        stub.add_response("get_lifecycle_policy", {"lifecyclePolicyText": text}, {"repositoryName": "demo"})
-        assert registry.fetch_policy(client, "demo") == text
+        stub.add_response("get_lifecycle_policy", {"lifecyclePolicyText": text}, {"repositoryName": "imgexpiry-demo"})
+        assert registry.fetch_policy(client, "imgexpiry-demo") == text
 
 
 def test_fetch_policy_returns_none_when_repo_has_no_policy(client):
     with Stubber(client) as stub:
         stub.add_client_error("get_lifecycle_policy", service_error_code="LifecyclePolicyNotFoundException")
-        assert registry.fetch_policy(client, "demo") is None
+        assert registry.fetch_policy(client, "imgexpiry-demo") is None

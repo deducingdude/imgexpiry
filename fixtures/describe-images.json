@@ -2,7 +2,7 @@
   "imageDetails": [
     {
       "registryId": "340754910639",
-      "repositoryName": "demo",
+      "repositoryName": "imgexpiry-demo",
       "imageDigest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
       "imageTags": ["v1.3.0", "latest"],
       "imageSizeInBytes": 31457280,
@@ -10,7 +10,7 @@
     },
     {
       "registryId": "340754910639",
-      "repositoryName": "demo",
+      "repositoryName": "imgexpiry-demo",
       "imageDigest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
       "imageTags": ["v1.2.0"],
       "imageSizeInBytes": 31232000,
@@ -18,7 +18,7 @@
     },
     {
       "registryId": "340754910639",
-      "repositoryName": "demo",
+      "repositoryName": "imgexpiry-demo",
       "imageDigest": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
       "imageTags": ["v1.1.0"],
       "imageSizeInBytes": 30998528,
@@ -26,7 +26,7 @@
     },
     {
       "registryId": "340754910639",
-      "repositoryName": "demo",
+      "repositoryName": "imgexpiry-demo",
       "imageDigest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
       "imageTags": ["v1.0.0"],
       "imageSizeInBytes": 30801920,
@@ -34,7 +34,7 @@
     },
     {
       "registryId": "340754910639",
-      "repositoryName": "demo",
+      "repositoryName": "imgexpiry-demo",
       "imageDigest": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
       "imageSizeInBytes": 31000000,
       "imagePushedAt": "2026-11-03T12:00:00.000000+00:00"

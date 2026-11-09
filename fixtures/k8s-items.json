@@ -11,14 +11,14 @@
       },
       "spec": {
         "containers": [
-          {"name": "app", "image": "340754910639.dkr.ecr.us-west-2.amazonaws.com/demo:v1.3.0"},
+          {"name": "app", "image": "340754910639.dkr.ecr.us-west-2.amazonaws.com/imgexpiry-demo:v1.3.0"},
           {"name": "proxy", "image": "nginx:1.27"}
         ]
       },
       "status": {
         "containerStatuses": [
-          {"name": "app", "image": "340754910639.dkr.ecr.us-west-2.amazonaws.com/demo:v1.3.0",
-           "imageID": "340754910639.dkr.ecr.us-west-2.amazonaws.com/demo@sha256:1111111111111111111111111111111111111111111111111111111111111111"},
+          {"name": "app", "image": "340754910639.dkr.ecr.us-west-2.amazonaws.com/imgexpiry-demo:v1.3.0",
+           "imageID": "340754910639.dkr.ecr.us-west-2.amazonaws.com/imgexpiry-demo@sha256:1111111111111111111111111111111111111111111111111111111111111111"},
           {"name": "proxy", "image": "docker.io/library/nginx:1.27",
            "imageID": "docker.io/library/nginx@sha256:9999999999999999999999999999999999999999999999999999999999999999"}
         ]
@@ -33,20 +33,20 @@
       },
       "spec": {
         "initContainers": [
-          {"name": "migrate", "image": "340754910639.dkr.ecr.us-west-2.amazonaws.com/demo:v1.1.0"}
+          {"name": "migrate", "image": "340754910639.dkr.ecr.us-west-2.amazonaws.com/imgexpiry-demo:v1.1.0"}
         ],
         "containers": [
-          {"name": "worker", "image": "340754910639.dkr.ecr.us-west-2.amazonaws.com/demo:v1.0.0"}
+          {"name": "worker", "image": "340754910639.dkr.ecr.us-west-2.amazonaws.com/imgexpiry-demo:v1.0.0"}
         ]
       },
       "status": {
         "initContainerStatuses": [
-          {"name": "migrate", "image": "340754910639.dkr.ecr.us-west-2.amazonaws.com/demo:v1.1.0",
-           "imageID": "340754910639.dkr.ecr.us-west-2.amazonaws.com/demo@sha256:3333333333333333333333333333333333333333333333333333333333333333"}
+          {"name": "migrate", "image": "340754910639.dkr.ecr.us-west-2.amazonaws.com/imgexpiry-demo:v1.1.0",
+           "imageID": "340754910639.dkr.ecr.us-west-2.amazonaws.com/imgexpiry-demo@sha256:3333333333333333333333333333333333333333333333333333333333333333"}
         ],
         "containerStatuses": [
-          {"name": "worker", "image": "340754910639.dkr.ecr.us-west-2.amazonaws.com/demo:v1.0.0",
-           "imageID": "340754910639.dkr.ecr.us-west-2.amazonaws.com/demo@sha256:4444444444444444444444444444444444444444444444444444444444444444"}
+          {"name": "worker", "image": "340754910639.dkr.ecr.us-west-2.amazonaws.com/imgexpiry-demo:v1.0.0",
+           "imageID": "340754910639.dkr.ecr.us-west-2.amazonaws.com/imgexpiry-demo@sha256:4444444444444444444444444444444444444444444444444444444444444444"}
         ]
       }
     },
@@ -55,7 +55,7 @@
       "metadata": {"name": "pending-0", "namespace": "shop"},
       "spec": {
         "containers": [
-          {"name": "app", "image": "340754910639.dkr.ecr.us-west-2.amazonaws.com/demo:v1.2.0"}
+          {"name": "app", "image": "340754910639.dkr.ecr.us-west-2.amazonaws.com/imgexpiry-demo:v1.2.0"}
         ]
       },
       "status": {"phase": "Pending"}
@@ -70,7 +70,7 @@
             "template": {
               "spec": {
                 "containers": [
-                  {"name": "report", "image": "340754910639.dkr.ecr.us-west-2.amazonaws.com/demo:v1.0.0"}
+                  {"name": "report", "image": "340754910639.dkr.ecr.us-west-2.amazonaws.com/imgexpiry-demo:v1.0.0"}
                 ]
               }
             }

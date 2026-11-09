@@ -29,7 +29,7 @@ def world():
     return inventory, images, predict(rules, images, NOW)
 
 
-def findings_for(world, repo="demo"):
+def findings_for(world, repo="imgexpiry-demo"):
     inventory, images, predictions = world
     return build_findings(inventory.images, images, predictions, repo)
 
@@ -63,20 +63,20 @@ def test_other_repositories_are_filtered_out(world):
 def test_digest_not_in_registry_is_missing(world):
     inventory, images, predictions = world
     gone = replace(inventory.images[0], digest=d("f"), tag="v0.9.0")
-    fs = build_findings([gone], images, predictions, "demo")
+    fs = build_findings([gone], images, predictions, "imgexpiry-demo")
     assert [(f.status, f.digest, f.tag) for f in fs] == [(MISSING, d("f"), "v0.9.0")]
 
 
 def test_tag_not_in_registry_is_missing(world):
     inventory, images, predictions = world
     gone = replace(inventory.images[0], digest=None, tag="v0.9.0")
-    assert build_findings([gone], images, predictions, "demo")[0].status == MISSING
+    assert build_findings([gone], images, predictions, "imgexpiry-demo")[0].status == MISSING
 
 
 def test_missing_sorts_before_everything(world):
     inventory, images, predictions = world
     gone = replace(inventory.images[0], digest=None, tag="v0.9.0")
-    fs = build_findings(inventory.images + [gone], images, predictions, "demo")
+    fs = build_findings(inventory.images + [gone], images, predictions, "imgexpiry-demo")
     assert fs[0].status == MISSING
 
 
@@ -95,7 +95,7 @@ def test_urgency_order():
 # --- exit code ---------------------------------------------------------------
 
 def finding(status, **kw):
-    return Finding("demo", "v1", d("1"), status, **kw)
+    return Finding("imgexpiry-demo", "v1", d("1"), status, **kw)
 
 
 @pytest.mark.parametrize("name, f, warn_days, expected", [
@@ -141,7 +141,7 @@ def test_format_report_table(world):
     out = format_report(findings_for(world), NOW, ignored=inventory.ignored)
     lines = out.splitlines()
     assert lines[0].split() == ["IMAGE", "DIGEST", "EXPIRES", "WORKLOADS"]
-    assert lines[1].split()[:2] == ["demo:v1.0.0", d("4")[:19]]
+    assert lines[1].split()[:2] == ["imgexpiry-demo:v1.0.0", d("4")[:19]]
     assert "due now" in lines[1] and lines[1].endswith("2")
     assert "after 1 more push" in lines[2]
     assert "Ignored 1 container using non-ECR images." in out
@@ -155,5 +155,5 @@ def test_format_report_with_no_findings():
 
 
 def test_digest_only_reference_is_labelled_by_digest():
-    out = format_report([Finding("demo", "", d("a"), SAFE, workloads=["n/Pod/p"])], NOW)
-    assert "demo@" + d("a")[:19] in out
+    out = format_report([Finding("imgexpiry-demo", "", d("a"), SAFE, workloads=["n/Pod/p"])], NOW)
+    assert "imgexpiry-demo@" + d("a")[:19] in out

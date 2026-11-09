@@ -10,7 +10,7 @@ FIXTURES = Path(__file__).parent.parent / "fixtures"
 NOW = datetime(2026, 11, 9, tzinfo=timezone.utc)
 
 FIXTURE_ARGS = [
-    "--repo", "demo",
+    "--repo", "imgexpiry-demo",
     "--policy-file", str(FIXTURES / "lifecycle-policy.json"),
     "--images-file", str(FIXTURES / "describe-images.json"),
     "--inventory-file", str(FIXTURES / "k8s-items.json"),
@@ -34,12 +34,12 @@ def only_pod_inventory(tmp_path, keep_name):
 def test_at_risk_exits_1_and_prints_report(capsys):
     code, out, _ = run(capsys, *FIXTURE_ARGS)
     assert code == cli.AT_RISK
-    assert "demo:v1.0.0" in out and "due now" in out
+    assert "imgexpiry-demo:v1.0.0" in out and "due now" in out
     assert "1 image at risk" in out
 
 
 def test_nothing_at_risk_exits_0(capsys, tmp_path):
-    args = ["--repo", "demo", "--policy-file", str(FIXTURES / "lifecycle-policy.json"),
+    args = ["--repo", "imgexpiry-demo", "--policy-file", str(FIXTURES / "lifecycle-policy.json"),
             "--images-file", str(FIXTURES / "describe-images.json"),
             "--inventory-file", only_pod_inventory(tmp_path, "web")]
     code, out, _ = run(capsys, *args)
@@ -52,10 +52,10 @@ def test_warn_days_is_respected(capsys, tmp_path):
     # The untagged image was pushed 2026-11-03 12:00, so the 7 day rule expires it
     # 2026-11-10 12:00: 1.5 days after NOW.
     items = [{"kind": "Pod", "metadata": {"name": "p", "namespace": "n"},
-              "spec": {"containers": [{"name": "c", "image": f"340754910639.dkr.ecr.us-west-2.amazonaws.com/demo@sha256:{'5' * 64}"}]}}]
+              "spec": {"containers": [{"name": "c", "image": f"340754910639.dkr.ecr.us-west-2.amazonaws.com/imgexpiry-demo@sha256:{'5' * 64}"}]}}]
     inv = tmp_path / "inv.json"
     inv.write_text(json.dumps({"items": items}))
-    base = ["--repo", "demo", "--policy-file", str(FIXTURES / "lifecycle-policy.json"),
+    base = ["--repo", "imgexpiry-demo", "--policy-file", str(FIXTURES / "lifecycle-policy.json"),
             "--images-file", str(FIXTURES / "describe-images.json"), "--inventory-file", str(inv)]
     assert run(capsys, *base, "--warn-days", "1")[0] == cli.OK
     assert run(capsys, *base, "--warn-days", "2")[0] == cli.AT_RISK
