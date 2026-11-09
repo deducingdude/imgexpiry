@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "imgexpiry"
+version = "0.1.0"
+description = "Tells you which running images your ECR lifecycle policy is about to delete."
+readme = "README.md"
+requires-python = ">=3.9"
+dynamic = ["dependencies"]
+
+[project.scripts]
+imgexpiry = "imgexpiry.cli:main"
+
+[tool.setuptools]
+packages = ["imgexpiry"]
+
+[tool.setuptools.dynamic]
+dependencies = { file = ["requirements.txt"] }
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["integration: needs a kind cluster or AWS access (deselect with -m 'not integration')"]
+addopts = "-m 'not integration'"
