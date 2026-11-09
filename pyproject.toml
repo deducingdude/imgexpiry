@@ -7,7 +7,7 @@ name = "imgexpiry"
 version = "0.1.0"
 description = "Tells you which running images your ECR lifecycle policy is about to delete."
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dynamic = ["dependencies"]
 
 [project.scripts]
