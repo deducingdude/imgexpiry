@@ -39,11 +39,21 @@ def findings_for(world, repo="imgexpiry-demo"):
 def test_fixture_findings_are_ordered_most_urgent_first(world):
     fs = findings_for(world)
     assert [(f.tag, f.status, f.pushes) for f in fs] == [
+        ("build-7-rc2", EXPIRES_AT, None),        # 14 day pattern rule: long overdue
         ("v1.0.0", EXPIRES_AT, None),             # beyond the keep-3 limit: due now
         ("v1.1.0", EXPIRES_AFTER_PUSHES, 1),
         ("v1.2.0", EXPIRES_AFTER_PUSHES, 2),
         ("v1.3.0", EXPIRES_AFTER_PUSHES, 3),
     ]
+
+
+def test_fixture_predictions_cover_the_pattern_and_any_rules(world):
+    preds = {p.digest: p for p in world[2]}
+    utc = timezone.utc
+    # both patterns match: owned by the priority 3 pattern rule
+    assert (preds[d("6")].rule_priority, preds[d("6")].expires_at) == (3, datetime(2026, 11, 13, 10, tzinfo=utc))
+    # only "build-*" matches, so it falls through to the priority 4 `any` rule
+    assert (preds[d("8")].rule_priority, preds[d("8")].expires_at) == (4, datetime(2027, 1, 29, 10, tzinfo=utc))
 
 
 def test_tag_only_inventory_entries_are_resolved_through_the_registry(world):
@@ -141,9 +151,11 @@ def test_format_report_table(world):
     out = format_report(findings_for(world), NOW, ignored=inventory.ignored)
     lines = out.splitlines()
     assert lines[0].split() == ["IMAGE", "DIGEST", "EXPIRES", "WORKLOADS"]
-    assert lines[1].split()[:2] == ["imgexpiry-demo:v1.0.0", d("4")[:19]]
-    assert "due now" in lines[1] and lines[1].endswith("2")
-    assert "after 1 more push" in lines[2]
+    assert lines[1].split()[:2] == ["imgexpiry-demo:build-7-rc2", d("7")[:19]]
+    assert "overdue since 2026-08-15" in lines[1]
+    assert lines[2].split()[:2] == ["imgexpiry-demo:v1.0.0", d("4")[:19]]
+    assert "due now" in lines[2] and lines[2].endswith("2")
+    assert "after 1 more push" in lines[3]
     assert "Ignored 1 container using non-ECR images." in out
     assert "no new pushes" in out
 

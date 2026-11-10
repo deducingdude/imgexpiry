@@ -24,6 +24,18 @@
     },
     {
       "rulePriority": 3,
+      "description": "Expire release candidate builds after 14 days",
+      "selection": {
+        "tagStatus": "tagged",
+        "tagPatternList": ["build-*", "*-rc*"],
+        "countType": "sinceImagePushed",
+        "countUnit": "days",
+        "countNumber": 14
+      },
+      "action": {"type": "expire"}
+    },
+    {
+      "rulePriority": 4,
       "description": "Expire everything else after 90 days",
       "selection": {
         "tagStatus": "any",

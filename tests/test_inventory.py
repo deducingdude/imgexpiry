@@ -15,6 +15,10 @@ HOST = "340754910639.dkr.ecr.us-west-2.amazonaws.com"
 DIGEST = "sha256:" + "1" * 64
 
 
+def d(char):
+    return "sha256:" + char * 64
+
+
 @pytest.fixture(scope="module")
 def inventory():
     return from_kubectl_json(json.loads((FIXTURES / "k8s-items.json").read_text()))
@@ -72,8 +76,13 @@ def test_other_registries_are_ignored_and_counted(inventory):
     assert ("web", "proxy") not in by_container(inventory)
 
 
+def test_standalone_pod_running_a_release_candidate(inventory):
+    runner = by_container(inventory)[("rc-runner", "runner")]
+    assert (runner.workload_kind, runner.tag, runner.digest) == ("Pod", "build-7-rc2", d("7"))
+
+
 def test_total_images(inventory):
-    assert len(inventory.images) == 5
+    assert len(inventory.images) == 6
 
 
 def test_digest_pinned_spec_is_used_when_status_is_missing():

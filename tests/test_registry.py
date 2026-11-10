@@ -19,7 +19,7 @@ def client():
 
 def test_load_images_file():
     images = registry.load_images_file(FIXTURES / "describe-images.json")
-    assert len(images) == 5
+    assert len(images) == 8
     assert images[0] == Image(
         digest="sha256:" + "1" * 64,
         pushed_at=datetime(2026, 10, 20, 14, 3, 11, 250000, tzinfo=timezone.utc),
@@ -30,7 +30,7 @@ def test_load_images_file():
 
 def test_load_policy_file_parses():
     rules = parse_policy(registry.load_policy_file(FIXTURES / "lifecycle-policy.json"))
-    assert [r.priority for r in rules] == [1, 2, 3]
+    assert [r.priority for r in rules] == [1, 2, 3, 4]
 
 
 @pytest.mark.parametrize("value", [

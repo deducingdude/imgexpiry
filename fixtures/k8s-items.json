@@ -61,6 +61,21 @@
       "status": {"phase": "Pending"}
     },
     {
+      "kind": "Pod",
+      "metadata": {"name": "rc-runner", "namespace": "shop"},
+      "spec": {
+        "containers": [
+          {"name": "runner", "image": "340754910639.dkr.ecr.us-west-2.amazonaws.com/imgexpiry-demo:build-7-rc2"}
+        ]
+      },
+      "status": {
+        "containerStatuses": [
+          {"name": "runner", "image": "340754910639.dkr.ecr.us-west-2.amazonaws.com/imgexpiry-demo:build-7-rc2",
+           "imageID": "340754910639.dkr.ecr.us-west-2.amazonaws.com/imgexpiry-demo@sha256:7777777777777777777777777777777777777777777777777777777777777777"}
+        ]
+      }
+    },
+    {
       "kind": "CronJob",
       "metadata": {"name": "nightly", "namespace": "shop"},
       "spec": {

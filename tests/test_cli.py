@@ -35,7 +35,7 @@ def test_at_risk_exits_1_and_prints_report(capsys):
     code, out, _ = run(capsys, *FIXTURE_ARGS)
     assert code == cli.AT_RISK
     assert "imgexpiry-demo:v1.0.0" in out and "due now" in out
-    assert "1 image at risk" in out
+    assert "2 images at risk" in out
 
 
 def test_nothing_at_risk_exits_0(capsys, tmp_path):

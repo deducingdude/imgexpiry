@@ -38,6 +38,30 @@
       "imageDigest": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
       "imageSizeInBytes": 31000000,
       "imagePushedAt": "2026-11-03T12:00:00.000000+00:00"
+    },
+    {
+      "registryId": "340754910639",
+      "repositoryName": "imgexpiry-demo",
+      "imageDigest": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+      "imageTags": ["build-42-rc1"],
+      "imageSizeInBytes": 31100000,
+      "imagePushedAt": "2026-10-30T10:00:00.000000+00:00"
+    },
+    {
+      "registryId": "340754910639",
+      "repositoryName": "imgexpiry-demo",
+      "imageDigest": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+      "imageTags": ["build-7-rc2"],
+      "imageSizeInBytes": 30900000,
+      "imagePushedAt": "2026-08-01T10:00:00.000000+00:00"
+    },
+    {
+      "registryId": "340754910639",
+      "repositoryName": "imgexpiry-demo",
+      "imageDigest": "sha256:8888888888888888888888888888888888888888888888888888888888888888",
+      "imageTags": ["build-43"],
+      "imageSizeInBytes": 31050000,
+      "imagePushedAt": "2026-10-31T10:00:00.000000+00:00"
     }
   ]
 }
