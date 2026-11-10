@@ -9,7 +9,6 @@ import argparse
 import json
 import sys
 from datetime import datetime, timezone
-from typing import Union
 
 import urllib3.exceptions
 from botocore.exceptions import BotoCoreError, ClientError
@@ -46,7 +45,7 @@ def build_parser() -> argparse.ArgumentParser:
     return p
 
 
-def main(argv: Union[list, None] = None, now: Union[datetime, None] = None) -> int:
+def main(argv: list | None = None, now: datetime | None = None) -> int:
     args = build_parser().parse_args(argv)
     now = now or datetime.now(timezone.utc)
     try:

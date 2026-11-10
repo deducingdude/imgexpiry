@@ -16,7 +16,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, field
-from typing import Union
+from collections.abc import Callable
 
 _ECR_REF = re.compile(
     r"^(?P<registry>\d{12}\.dkr\.ecr(?:-fips)?\.[a-z0-9-]+\.amazonaws\.com(?:\.cn)?)"
@@ -32,7 +32,7 @@ class InUse:
     registry: str
     repository: str
     tag: str
-    digest: Union[str, None]
+    digest: str | None
     namespace: str
     workload_kind: str
     workload_name: str
@@ -45,7 +45,7 @@ class Inventory:
     ignored: int = 0  # containers using images from other registries
 
 
-def list_inventory(context: Union[str, None] = None, namespace: Union[str, None] = None) -> Inventory:
+def list_inventory(context: str | None = None, namespace: str | None = None) -> Inventory:
     """Read pods and cronjobs from the cluster behind `context`."""
     from kubernetes import client, config
 
@@ -110,7 +110,13 @@ def _from_cronjob(cronjob: dict):
     return _collect(containers, meta.get("namespace", "default"), "CronJob", meta["name"], image_id=lambda c: None)
 
 
-def _collect(containers: list, namespace: str, kind: str, name: str, image_id):
+def _collect(
+    containers: list,
+    namespace: str,
+    kind: str,
+    name: str,
+    image_id: Callable[[dict], str | None],
+):
     images, ignored = [], 0
     for c in containers:
         ref = parse_image_ref(c["image"])
@@ -131,7 +137,7 @@ def _collect(containers: list, namespace: str, kind: str, name: str, image_id):
     return images, ignored
 
 
-def _digest_from_image_id(image_id: Union[str, None]) -> Union[str, None]:
+def _digest_from_image_id(image_id: str | None) -> str | None:
     """Only trust an imageID that carries a manifest digest after '@'.
 
     A bare `sha256:...` imageID (some runtimes) is the image config digest,

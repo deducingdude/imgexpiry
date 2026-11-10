@@ -11,7 +11,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
-from typing import Union
 
 from imgexpiry.predictor import EXPIRES_AFTER_PUSHES, EXPIRES_AT, SAFE
 
@@ -27,10 +26,10 @@ NOTE = (
 class Finding:
     repository: str
     tag: str
-    digest: Union[str, None]
+    digest: str | None
     status: str
-    expires_at: Union[datetime, None] = None
-    pushes: Union[int, None] = None
+    expires_at: datetime | None = None
+    pushes: int | None = None
     workloads: list = field(default_factory=list)
 
 

@@ -19,7 +19,6 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import Union
 
 from imgexpiry.policy import Rule
 
@@ -39,9 +38,9 @@ class Image:
 class Prediction:
     digest: str
     status: str
-    expires_at: Union[datetime, None] = None
-    pushes: Union[int, None] = None
-    rule_priority: Union[int, None] = None
+    expires_at: datetime | None = None
+    pushes: int | None = None
+    rule_priority: int | None = None
 
 
 def predict(rules: list, images: list, now: datetime) -> list:

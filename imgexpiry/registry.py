@@ -7,18 +7,17 @@ from __future__ import annotations
 
 import json
 from datetime import datetime, timezone
-from typing import Union
 
 import boto3
 
 from imgexpiry.predictor import Image
 
 
-def ecr_client(profile: Union[str, None] = None, region: Union[str, None] = None):
+def ecr_client(profile: str | None = None, region: str | None = None):
     return boto3.Session(profile_name=profile, region_name=region).client("ecr")
 
 
-def fetch_policy(client, repo: str) -> Union[str, None]:
+def fetch_policy(client, repo: str) -> str | None:
     """Return the repository's lifecycle policy text, or None if it has none."""
     try:
         return client.get_lifecycle_policy(repositoryName=repo)["lifecyclePolicyText"]
@@ -53,7 +52,7 @@ def images_from_details(details) -> list:
     ]
 
 
-def _as_datetime(value: Union[str, datetime]) -> datetime:
+def _as_datetime(value: str | datetime) -> datetime:
     if isinstance(value, str):
         value = datetime.fromisoformat(value.replace("Z", "+00:00"))
     if value.tzinfo is None:

@@ -9,7 +9,6 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass
-from typing import Union
 
 TAG_STATUSES = ("tagged", "untagged", "any")
 SUPPORTED_COUNT_TYPES = ("imageCountMoreThan", "sinceImagePushed")
@@ -33,11 +32,11 @@ class Rule:
     count_number: int
     tag_prefixes: tuple = ()
     tag_patterns: tuple = ()
-    count_unit: Union[str, None] = None
+    count_unit: str | None = None
     description: str = ""
 
 
-def parse_policy(policy: Union[str, dict]) -> list:
+def parse_policy(policy: str | dict) -> list:
     """Parse a lifecycle policy (JSON text or decoded dict) into rules.
 
     Returns the rules sorted by priority, highest priority (lowest number) first.
