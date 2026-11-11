@@ -9,7 +9,6 @@ Pure functions, no I/O. Semantics follow the ECR docs:
 - A rule counts every image matching its tag selection when ranking for
   `imageCountMoreThan`, including images owned by higher-priority rules
   (docs: rules "can still identify them as if they haven't been expired").
-  This reading is not stated outright; verify it with the lifecycle preview.
 
 What it cannot know: future pushes, policy changes, and ECR's up to 24 hour
 delay between meeting the criteria and actually expiring the image.
