@@ -99,6 +99,9 @@ Make sure to authenticate with aws first using `aws sso login --profile imgexpir
 .venv/bin/imgexpiry --repo imgexpiry-demo --profile imgexpiry --region us-west-2 --context docker-desktop
 ```
 
-## What's missing and why
+## What's missing
 
-## Known flaw
+- Ideally, instead of just reporting, we would replace the ECR lifecycle policy to make sure we don't delete in-use images.
+- No alerting or slack integration.
+- One repository per run.
+- Does not support all countTypes (e.g. `sinceImagePulled`) and actions (`archive`).
